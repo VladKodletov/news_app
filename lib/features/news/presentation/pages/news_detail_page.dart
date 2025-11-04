@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 import 'package:news_app/features/news/presentation/bloc/news_detail/news_detail_bloc.dart';
 import 'package:news_app/features/news/presentation/bloc/news_detail/news_detail_event.dart';
@@ -20,9 +21,21 @@ class NewsDetailPage extends StatelessWidget {
     context.read<NewsDetailBloc>().add(LoadArticleDetail(article));
     return Scaffold(
       appBar: AppBar(
-        title: const Text('News Detail'),
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: const Icon(
+            Icons.arrow_back_sharp,
+            size: 40,
+          ),
+          onPressed: () => context.pop(),
+        ),
         actions: const [
-          DetailFavoriteButton(),
+          DetailFavoriteButton(
+            height: 41,
+          ),
         ],
       ),
       body: BlocBuilder<NewsDetailBloc, NewsDetailState>(

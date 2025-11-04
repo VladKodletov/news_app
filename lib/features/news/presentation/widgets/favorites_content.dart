@@ -41,9 +41,11 @@ class FavoritesContent extends StatelessWidget {
           itemBuilder: (context, index) {
             final article = successState.articles[index];
             return NewsListItem(
+              isFavoritePage: true,
               article: article,
-              onTap: () {
-               context.push('/detail', extra: article);
+              onTap: () async {
+                await context.push('/detail', extra: article);
+                context.read<FavoritesBloc>().add(const LoadFavorites());
               },
             );
           },

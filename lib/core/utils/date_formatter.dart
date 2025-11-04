@@ -19,6 +19,6 @@ class DateFormatter {
   }
 
   static String formatDetailedDate(DateTime date) {
-    return '${date.day}/${date.month}/${date.year} ${date.hour}:${date.minute.toString().padLeft(2, '0')}';
+    return '${date.month}/${date.day}/${date.year}';
   }
 }

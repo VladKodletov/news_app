@@ -8,13 +8,17 @@ part of 'article_model.dart';
 
 ArticleModel _$ArticleModelFromJson(Map<String, dynamic> json) => ArticleModel(
       author: json['author'] as String?,
-      title: json['title'] as String,
-      description: json['description'] as String,
-      url: json['url'] as String,
+      title: json['title'] as String?,
+      description: json['description'] as String?,
+      url: json['url'] as String?,
       urlToImage: json['urlToImage'] as String?,
-      publishedAt: DateTime.parse(json['publishedAt'] as String),
-      content: json['content'] as String,
-      source: SourceModel.fromJson(json['source'] as Map<String, dynamic>),
+      publishedAt: json['publishedAt'] == null
+          ? null
+          : DateTime.parse(json['publishedAt'] as String),
+      content: json['content'] as String?,
+      source: json['source'] == null
+          ? null
+          : SourceModel.fromJson(json['source'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ArticleModelToJson(ArticleModel instance) =>
@@ -24,14 +28,14 @@ Map<String, dynamic> _$ArticleModelToJson(ArticleModel instance) =>
       'description': instance.description,
       'url': instance.url,
       'urlToImage': instance.urlToImage,
-      'publishedAt': instance.publishedAt.toIso8601String(),
+      'publishedAt': instance.publishedAt?.toIso8601String(),
       'content': instance.content,
       'source': instance.source,
     };
 
 SourceModel _$SourceModelFromJson(Map<String, dynamic> json) => SourceModel(
       id: json['id'] as String?,
-      name: json['name'] as String,
+      name: json['name'] as String?,
     );
 
 Map<String, dynamic> _$SourceModelToJson(SourceModel instance) =>

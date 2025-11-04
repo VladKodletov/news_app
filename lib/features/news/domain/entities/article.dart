@@ -1,6 +1,5 @@
 import 'package:equatable/equatable.dart';
 
-/// Article entity representing a news article
 class Article extends Equatable {
   final String id;
   final String title;
@@ -34,7 +33,6 @@ class Article extends Equatable {
         isFavorite,
       ];
 
-  /// Creates a copy of the article with updated fields
   Article copyWith({
     String? id,
     String? title,
@@ -56,4 +54,9 @@ class Article extends Equatable {
       isFavorite: isFavorite ?? this.isFavorite,
     );
   }
+
+  bool get isValid => 
+      id.isNotEmpty && 
+      title.isNotEmpty && 
+      description.isNotEmpty;
 }

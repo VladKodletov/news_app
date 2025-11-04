@@ -11,28 +11,16 @@ class ArticleMetadata extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Text(
-          DateFormatter.formatRelativeTime(article.publishedAt),
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
-        ),
-        const SizedBox(width: 8),
-        Text(
-          article.source,
-          style: const TextStyle(
-            fontSize: 12,
-            color: Colors.grey,
-          ),
-        ),
         const Spacer(),
-        if (article.isFavorite)
-          const Icon(
-            Icons.favorite,
-            color: Colors.red,
-            size: 16,
+
+        Text(
+          DateFormatter.formatDetailedDate(article.publishedAt),
+          style: const TextStyle(
+            fontSize: 12,
+            color: Colors.grey,
           ),
+        ),
+       
       ],
     );
   }

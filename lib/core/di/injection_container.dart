@@ -28,7 +28,7 @@ class InjectionContainer {
     sl.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
     sl.registerLazySingleton<http.Client>(() => http.Client());
 
-    const newsApiKey = '12932ec4493c4df0b50a6c6bcfc7c7b6';
+    const newsApiKey = '89478c634d8a4eb9a579c0a42ee9dda1';
     sl.registerLazySingleton<String>(() => newsApiKey,
         instanceName: 'newsApiKey');
   }

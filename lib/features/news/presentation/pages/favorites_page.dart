@@ -10,24 +10,22 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<FavoritesBloc>().add(LoadFavorites());
+    context.read<FavoritesBloc>().add(const LoadFavorites());
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Favorites'),
-        ),
-        body: BlocConsumer<FavoritesBloc, FavoritesState>(
-          listener: (context, state) {
-            if (state is FavoritesError) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
-              );
-            }
-          },
-          builder: (context, state) {
-            return FavoritesContent(state: state, );
-          },
-        ),
-      )
-    ;
+      body: BlocConsumer<FavoritesBloc, FavoritesState>(
+        listener: (context, state) {
+          if (state is FavoritesError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        builder: (context, state) {
+          return FavoritesContent(
+            state: state,
+          );
+        },
+      ),
+    );
   }
 }

@@ -14,6 +14,35 @@ class ArticleDetailContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(
+            article.title,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const SizedBox(height: 16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                article.source,
+                style: const TextStyle(
+                  fontSize: 19,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(width: 16),
+              Text(
+                DateFormatter.formatDetailedDate(article.publishedAt),
+                style: const TextStyle(
+                  fontSize: 19,
+                  color: Colors.grey,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 16),
           if (article.imageUrl != null) ...[
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
@@ -41,34 +70,6 @@ class ArticleDetailContent extends StatelessWidget {
             ),
             const SizedBox(height: 16),
           ],
-          Text(
-            article.title,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Text(
-                article.source,
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                DateFormatter.formatDetailedDate(article.publishedAt),
-                style: const TextStyle(
-                  fontSize: 14,
-                  color: Colors.grey,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
           Text(
             article.content,
             style: const TextStyle(fontSize: 16, height: 1.5),

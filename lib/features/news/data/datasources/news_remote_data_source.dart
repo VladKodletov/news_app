@@ -1,4 +1,3 @@
-// lib/features/news/data/datasources/news_remote_data_source.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:news_app/core/constants/constants.dart';
@@ -35,26 +34,38 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
       // Build query parameters according to NewsAPI documentation
       final params = <String, String>{
         'apiKey': apiKey,
-        if (country != null && country.isNotEmpty) 'country': country,
+        'country': country ?? 'us',
         if (category != null && category.isNotEmpty) 'category': category,
         if (query != null && query.isNotEmpty) 'q': query,
       };
 
       // Make actual HTTP request
-        final uri = Uri.https(
-        AppConstants.newsApiBaseUrl, 
-        AppConstants.newsApiPath, 
-        params
-      );
+      final uri = Uri.https(
+          AppConstants.newsApiBaseUrl, AppConstants.newsApiPath, params);
       final response = await client.get(uri);
 
       // Handle different status codes
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
-        return NewsResponseModel.fromJson(jsonResponse);
+        final newsResponse = NewsResponseModel.fromJson(jsonResponse);
+
+        // Проверяем и фильтруем статьи
+        final validArticles = newsResponse.articles
+                ?.where((article) =>
+                    article.title != null && article.title!.isNotEmpty)
+                .toList() ??
+            [];
+
+        // Возвращаем response с отфильтрованными статьями
+        return NewsResponseModel(
+          status: newsResponse.status,
+          totalResults: validArticles.length,
+          articles: validArticles,
+        );
       } else if (response.statusCode == 400) {
-        throw const ServerFailure('The request was unacceptable, often due to a missing or misconfigured parameter');
-      }else if (response.statusCode == 401) {
+        throw const ServerFailure(
+            'The request was unacceptable, often due to a missing or misconfigured parameter');
+      } else if (response.statusCode == 401) {
         throw const ServerFailure('Invalid API key');
       } else if (response.statusCode == 429) {
         throw const ServerFailure('Too many requests - rate limit exceeded');

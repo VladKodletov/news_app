@@ -29,7 +29,11 @@ class NewsRepositoryImpl implements NewsRepository {
       );
 
       // Convert models to entities
-      final articles = response.articles.map((model) => model.toEntity()).toList();
+      final articles = response.articles
+              ?.map((model) => model.toEntity())
+              .where((article) => article.isValid)
+              .toList() ??
+          [];
 
       // Mark favorites
       return await _markFavorites(articles);
@@ -77,12 +81,12 @@ class NewsRepositoryImpl implements NewsRepository {
   Future<List<Article>> _markFavorites(List<Article> articles) async {
     try {
       final List<Article> updatedArticles = [];
-      
+
       for (final article in articles) {
         final isFavorite = await localDataSource.isArticleFavorite(article.id);
         updatedArticles.add(article.copyWith(isFavorite: isFavorite));
       }
-      
+
       return updatedArticles;
     } catch (e) {
       // If we can't get favorites, return articles without favorite marks

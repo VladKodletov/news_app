@@ -44,6 +44,7 @@ class NewsListContent extends StatelessWidget {
           itemBuilder: (context, index) {
             final article = successState.articles[index];
             return NewsListItem(
+              isFavoritePage: false,
               article: article,
               onTap: () {
                 context.push('/detail', extra: article);

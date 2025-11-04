@@ -1,46 +1,47 @@
+// lib/features/news/data/models/article_model.dart
 import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
 part 'article_model.g.dart';
-/// Article model for JSON serialization/deserialization
+
 @JsonSerializable()
 class ArticleModel {
   final String? author;
-  final String title;
-  final String description;
-  final String url;
+  final String? title;
+  final String? description;
+  final String? url;
   final String? urlToImage;
-  final DateTime publishedAt;
-  final String content;
-  final SourceModel source;
+  final DateTime? publishedAt;
+  final String? content;
+  final SourceModel? source;
 
   ArticleModel({
     this.author,
-    required this.title,
-    required this.description,
-    required this.url,
+    this.title,
+    this.description,
+    this.url,
     this.urlToImage,
-    required this.publishedAt,
-    required this.content,
-    required this.source,
+    this.publishedAt,
+    this.content,
+    this.source,
   });
 
-  factory ArticleModel.fromJson(Map<String, dynamic> json) =>
+  factory ArticleModel.fromJson(Map<String, dynamic> json) => 
       _$ArticleModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$ArticleModelToJson(this);
 
-  /// Converts model to entity
+  /// Converts model to entity with null safety
   Article toEntity() {
     return Article(
-      id: url, // Using URL as unique ID since NewsAPI doesn't provide ID
-      title: title,
-      description: description,
-      content: content,
-      publishedAt: publishedAt,
+      id: url ?? '', // Use empty string if null
+      title: title ?? 'No title',
+      description: description ?? 'No description',
+      content: content ?? 'No content available',
+      publishedAt: publishedAt ?? DateTime.now(),
       imageUrl: urlToImage,
-      source: source.name,
-      isFavorite: false, // Default value, will be set by repository
+      source: source?.name ?? 'Unknown source',
+      isFavorite: false,
     );
   }
 }
@@ -48,14 +49,14 @@ class ArticleModel {
 @JsonSerializable()
 class SourceModel {
   final String? id;
-  final String name;
+  final String? name;
 
   SourceModel({
     this.id,
-    required this.name,
+    this.name,
   });
 
-  factory SourceModel.fromJson(Map<String, dynamic> json) =>
+  factory SourceModel.fromJson(Map<String, dynamic> json) => 
       _$SourceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SourceModelToJson(this);
