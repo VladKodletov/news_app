@@ -1,0 +1,28 @@
+import 'package:equatable/equatable.dart';
+import 'package:news_app/features/news/domain/entities/article.dart';
+
+/// Events for NewsDetailBloc
+abstract class NewsDetailEvent extends Equatable {
+  const NewsDetailEvent();
+
+  @override
+  List<Object> get props => [];
+}
+
+/// Event to load article details
+class LoadArticleDetail extends NewsDetailEvent {
+  final Article article;
+
+  const LoadArticleDetail(this.article);
+
+  @override
+  List<Object> get props => [article];
+}
+
+/// Event to toggle favorite status
+class ToggleFavorite extends NewsDetailEvent {
+  const ToggleFavorite();
+
+  @override
+  List<Object> get props => [];
+}
