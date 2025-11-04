@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/utils/date_formatter.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
 class ArticleDetailContent extends StatelessWidget {
@@ -59,7 +60,7 @@ class ArticleDetailContent extends StatelessWidget {
               ),
               const SizedBox(width: 16),
               Text(
-                '${article.publishedAt.day}/${article.publishedAt.month}/${article.publishedAt.year} ${article.publishedAt.hour}:${article.publishedAt.minute.toString().padLeft(2, '0')}',
+                DateFormatter.formatDetailedDate(article.publishedAt),
                 style: const TextStyle(
                   fontSize: 14,
                   color: Colors.grey,

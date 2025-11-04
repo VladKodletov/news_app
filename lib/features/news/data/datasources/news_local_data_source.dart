@@ -1,5 +1,6 @@
 // lib/features/news/data/datasources/news_local_data_source.dart
 import 'dart:convert';
+import 'package:news_app/core/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
@@ -21,7 +22,7 @@ abstract class NewsLocalDataSource {
 
 /// Implementation using shared_preferences
 class NewsLocalDataSourceImpl implements NewsLocalDataSource {
-  static const String _favoritesKey = 'favorite_articles';
+  static const String _favoritesKey = AppConstants.favoritesKey;
   final SharedPreferences prefs;
 
   NewsLocalDataSourceImpl({required this.prefs});

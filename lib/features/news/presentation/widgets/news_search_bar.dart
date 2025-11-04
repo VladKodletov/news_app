@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/constants/constants.dart';
 
 /// Search and filter bar for news
 class NewsSearchBar extends StatefulWidget {
@@ -19,15 +20,7 @@ class NewsSearchBar extends StatefulWidget {
 
 class _NewsSearchBarState extends State<NewsSearchBar> {
   final TextEditingController _searchController = TextEditingController();
-  final _categories = [
-    'business',
-    'entertainment',
-    'general',
-    'health',
-    'science',
-    'sports',
-    'technology',
-  ];
+  final _categories =  NewsCategories.all;
 
   @override
   Widget build(BuildContext context) {

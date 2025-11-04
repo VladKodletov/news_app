@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:news_app/core/utils/date_formatter.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
 class ArticleMetadata extends StatelessWidget {
@@ -11,7 +12,7 @@ class ArticleMetadata extends StatelessWidget {
     return Row(
       children: [
         Text(
-          _formatDate(article.publishedAt),
+          DateFormatter.formatRelativeTime(article.publishedAt),
           style: const TextStyle(
             fontSize: 12,
             color: Colors.grey,
@@ -34,18 +35,5 @@ class ArticleMetadata extends StatelessWidget {
           ),
       ],
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m ago';
-    } else if (difference.inHours < 24) {
-      return '${difference.inHours}h ago';
-    } else {
-      return '${difference.inDays}d ago';
-    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/features/news/presentation/bloc/news_list/news_list_bloc.dart';
 import 'package:news_app/features/news/presentation/bloc/news_list/news_list_event.dart';
 import 'package:news_app/features/news/presentation/bloc/news_list/news_list_state.dart';
@@ -65,7 +66,7 @@ class _NewsListPageState extends State<NewsListPage> {
           IconButton(
             icon: const Icon(Icons.favorite),
             onPressed: () {
-              // TODO: Navigate to favorites page
+             context.push('/favorites');
             },
           ),
         ],

@@ -1,6 +1,7 @@
 // lib/features/news/presentation/widgets/favorites_content.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/features/news/presentation/bloc/favorites/favorites_bloc.dart';
 import 'package:news_app/features/news/presentation/bloc/favorites/favorites_event.dart';
 import 'package:news_app/features/news/presentation/bloc/favorites/favorites_state.dart';
@@ -42,7 +43,7 @@ class FavoritesContent extends StatelessWidget {
             return NewsListItem(
               article: article,
               onTap: () {
-                // TODO: Navigate to detail page
+               context.push('/detail', extra: article);
               },
             );
           },

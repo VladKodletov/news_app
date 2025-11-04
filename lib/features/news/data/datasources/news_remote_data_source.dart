@@ -1,6 +1,7 @@
 // lib/features/news/data/datasources/news_remote_data_source.dart
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:news_app/core/constants/constants.dart';
 import 'package:news_app/features/news/data/models/news_response_model.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
 
@@ -37,18 +38,23 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
         if (country != null && country.isNotEmpty) 'country': country,
         if (category != null && category.isNotEmpty) 'category': category,
         if (query != null && query.isNotEmpty) 'q': query,
-        'pageSize': '20', // Limit results to 20 articles
       };
 
       // Make actual HTTP request
-      final uri = Uri.https('newsapi.org', '/v2/top-headlines', params);
+        final uri = Uri.https(
+        AppConstants.newsApiBaseUrl, 
+        AppConstants.newsApiPath, 
+        params
+      );
       final response = await client.get(uri);
 
       // Handle different status codes
       if (response.statusCode == 200) {
         final jsonResponse = json.decode(response.body);
         return NewsResponseModel.fromJson(jsonResponse);
-      } else if (response.statusCode == 401) {
+      } else if (response.statusCode == 400) {
+        throw const ServerFailure('The request was unacceptable, often due to a missing or misconfigured parameter');
+      }else if (response.statusCode == 401) {
         throw const ServerFailure('Invalid API key');
       } else if (response.statusCode == 429) {
         throw const ServerFailure('Too many requests - rate limit exceeded');

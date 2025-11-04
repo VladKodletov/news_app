@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:news_app/features/news/presentation/bloc/news_list/news_list_state.dart';
 import 'package:news_app/features/news/presentation/widgets/news_list_item.dart';
 import 'package:news_app/features/news/presentation/widgets/loading_widget.dart';
@@ -45,7 +46,7 @@ class NewsListContent extends StatelessWidget {
             return NewsListItem(
               article: article,
               onTap: () {
-                // TODO: Navigate to detail page
+                context.push('/detail', extra: article);
               },
             );
           },

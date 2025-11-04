@@ -10,12 +10,8 @@ class FavoritesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FavoritesBloc(
-        getFavorites: context.read(),
-        toggleFavorite: context.read(),
-      )..add(const LoadFavorites()),
-      child: Scaffold(
+    context.read<FavoritesBloc>().add(LoadFavorites());
+    return Scaffold(
         appBar: AppBar(
           title: const Text('Favorites'),
         ),
@@ -28,10 +24,10 @@ class FavoritesPage extends StatelessWidget {
             }
           },
           builder: (context, state) {
-            return FavoritesContent(state: state);
+            return FavoritesContent(state: state, );
           },
         ),
-      ),
-    );
+      )
+    ;
   }
 }
