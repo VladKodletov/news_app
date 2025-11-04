@@ -1,3 +1,4 @@
+// lib/features/news/presentation/bloc/news_detail/news_detail_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/news/domain/usecases/toggle_favorite.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
@@ -10,7 +11,7 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
 
   NewsDetailBloc({required this.toggleFavorite}) : super(NewsDetailInitial()) {
     on<LoadArticleDetail>(_onLoadArticleDetail);
-    on<ToggleFavorite>(_onToggleFavorite);
+    on<ToggleFavoriteEvent>(_onToggleFavorite);
   }
 
   Future<void> _onLoadArticleDetail(
@@ -21,7 +22,7 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
   }
 
   Future<void> _onToggleFavorite(
-    ToggleFavorite event,
+    ToggleFavoriteEvent event,
     Emitter<NewsDetailState> emit,
   ) async {
     try {
@@ -35,7 +36,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
         );
         emit(NewsDetailSuccess(updatedArticle));
 
-        // Perform actual toggle operation
         await toggleFavorite(currentArticle);
       }
     } on NewsFailure catch (e) {
