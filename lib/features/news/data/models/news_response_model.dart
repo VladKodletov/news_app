@@ -1,7 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/features/news/data/models/article_model.dart';
 
 part 'news_response_model.g.dart';
-
 /// Response model for NewsAPI top headlines
 @JsonSerializable()
 class NewsResponseModel {

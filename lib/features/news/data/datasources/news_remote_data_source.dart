@@ -1,4 +1,6 @@
-import 'package:news_app/features/news/data/models/article_model.dart';
+// lib/features/news/data/datasources/news_remote_data_source.dart
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:news_app/features/news/data/models/news_response_model.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
 
@@ -15,8 +17,12 @@ abstract class NewsRemoteDataSource {
 /// Implementation of NewsRemoteDataSource
 class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
   final String apiKey;
+  final http.Client client;
 
-  NewsRemoteDataSourceImpl({required this.apiKey});
+  NewsRemoteDataSourceImpl({
+    required this.apiKey,
+    required this.client,
+  });
 
   @override
   Future<NewsResponseModel> getTopHeadlines({
@@ -25,66 +31,40 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     String? query,
   }) async {
     try {
-      // Build query parameters
-      final params = <String, dynamic>{
+      // Build query parameters according to NewsAPI documentation
+      final params = <String, String>{
         'apiKey': apiKey,
-        if (country != null) 'country': country,
-        if (category != null) 'category': category,
+        if (country != null && country.isNotEmpty) 'country': country,
+        if (category != null && category.isNotEmpty) 'category': category,
         if (query != null && query.isNotEmpty) 'q': query,
+        'pageSize': '20', // Limit results to 20 articles
       };
 
-      // TODO: Implement actual HTTP request
-      // This is a placeholder - you would use http/dio package here
-      // Example:
-      // final response = await http.get(
-      //   Uri.https('newsapi.org', '/v2/top-headlines', params),
-      // );
-      //
-      // if (response.statusCode == 200) {
-      //   return NewsResponseModel.fromJson(
-      //     json.decode(response.body),
-      //   );
-      // } else {
-      //   throw ServerFailure('Failed to load news: ${response.statusCode}');
-      // }
+      // Make actual HTTP request
+      final uri = Uri.https('newsapi.org', '/v2/top-headlines', params);
+      final response = await client.get(uri);
 
-      // Mock response for now
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      // Simulate error for demonstration
-      if (query == 'error') {
-        throw const ServerFailure('Simulated server error');
+      // Handle different status codes
+      if (response.statusCode == 200) {
+        final jsonResponse = json.decode(response.body);
+        return NewsResponseModel.fromJson(jsonResponse);
+      } else if (response.statusCode == 401) {
+        throw const ServerFailure('Invalid API key');
+      } else if (response.statusCode == 429) {
+        throw const ServerFailure('Too many requests - rate limit exceeded');
+      } else if (response.statusCode >= 500) {
+        throw ServerFailure('Server error: ${response.statusCode}');
+      } else {
+        throw ServerFailure('Failed to load news: ${response.statusCode}');
       }
-
-      // Return mock data
-      return NewsResponseModel(
-        status: 'ok',
-        totalResults: 2,
-        articles: [
-          ArticleModel(
-            title: 'Sample News 1',
-            description: 'This is a sample news description',
-            url: 'https://example.com/1',
-            urlToImage: 'https://picsum.photos/200',
-            publishedAt: DateTime.now(),
-            content: 'Full content of sample news 1',
-            source: SourceModel(name: 'Sample Source 1'),
-          ),
-          ArticleModel(
-            title: 'Sample News 2',
-            description: 'This is another sample news description',
-            url: 'https://example.com/2',
-            urlToImage: null,
-            publishedAt: DateTime.now().subtract(const Duration(hours: 2)),
-            content: 'Full content of sample news 2',
-            source: SourceModel(name: 'Sample Source 2'),
-          ),
-        ],
-      );
+    } on http.ClientException catch (e) {
+      throw NetworkFailure('Network error: $e');
+    } on FormatException catch (e) {
+      throw ServerFailure('Invalid response format: $e');
     } on ServerFailure {
       rethrow;
     } catch (e) {
-      throw ServerFailure('Network error: $e');
+      throw ServerFailure('Unexpected error: $e');
     }
   }
 }

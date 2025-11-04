@@ -1,6 +1,6 @@
 // lib/features/news/data/repositories/news_repository_impl.dart
 import 'package:news_app/features/news/data/datasources/news_local_data_source.dart';
-import 'package:news_app/features/news/data/models/news_remote_data_source.dart';
+import 'package:news_app/features/news/data/datasources/news_remote_data_source.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
 import 'package:news_app/features/news/domain/repositories/news_repository.dart';
@@ -76,14 +76,14 @@ class NewsRepositoryImpl implements NewsRepository {
   /// Helper method to mark articles as favorite based on local storage
   Future<List<Article>> _markFavorites(List<Article> articles) async {
     try {
-      final favorites = await localDataSource.getFavoriteArticles();
-      final favoriteIds = favorites.map((fav) => fav.id).toSet();
-
-      return articles.map((article) {
-        return article.copyWith(
-          isFavorite: favoriteIds.contains(article.id),
-        );
-      }).toList();
+      final List<Article> updatedArticles = [];
+      
+      for (final article in articles) {
+        final isFavorite = await localDataSource.isArticleFavorite(article.id);
+        updatedArticles.add(article.copyWith(isFavorite: isFavorite));
+      }
+      
+      return updatedArticles;
     } catch (e) {
       // If we can't get favorites, return articles without favorite marks
       return articles;

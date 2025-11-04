@@ -1,7 +1,7 @@
+import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
 part 'article_model.g.dart';
-
 /// Article model for JSON serialization/deserialization
 @JsonSerializable()
 class ArticleModel {
