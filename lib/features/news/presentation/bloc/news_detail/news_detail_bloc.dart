@@ -1,4 +1,3 @@
-// lib/features/news/presentation/bloc/news_detail/news_detail_bloc.dart
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app/features/news/domain/usecases/toggle_favorite.dart';
 import 'package:news_app/features/news/domain/failures/news_failure.dart';
@@ -30,7 +29,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
       if (currentState is NewsDetailSuccess) {
         final currentArticle = currentState.article;
         
-        // Optimistically update UI
         final updatedArticle = currentArticle.copyWith(
           isFavorite: !currentArticle.isFavorite,
         );
@@ -39,7 +37,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
         await toggleFavorite(currentArticle);
       }
     } on NewsFailure catch (e) {
-      // Revert optimistic update on error
       final currentState = state;
       if (currentState is NewsDetailSuccess) {
         final revertedArticle = currentState.article.copyWith(
@@ -49,7 +46,6 @@ class NewsDetailBloc extends Bloc<NewsDetailEvent, NewsDetailState> {
       }
       emit(NewsDetailError(e.message));
     } catch (e) {
-      // Revert optimistic update on error
       final currentState = state;
       if (currentState is NewsDetailSuccess) {
         final revertedArticle = currentState.article.copyWith(

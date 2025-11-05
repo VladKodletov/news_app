@@ -1,4 +1,3 @@
-// lib/core/utils/date_formatter.dart
 /// Date formatting utilities
 class DateFormatter {
   static String formatRelativeTime(DateTime date) {

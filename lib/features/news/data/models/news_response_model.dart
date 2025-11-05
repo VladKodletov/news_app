@@ -1,4 +1,3 @@
-// lib/features/news/data/models/news_response_model.dart
 import 'package:json_annotation/json_annotation.dart';
 import 'article_model.dart';
 

@@ -1,4 +1,3 @@
-// lib/features/news/data/models/article_model.dart
 import 'package:json_annotation/json_annotation.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
@@ -31,10 +30,9 @@ class ArticleModel {
 
   Map<String, dynamic> toJson() => _$ArticleModelToJson(this);
 
-  /// Converts model to entity with null safety
   Article toEntity() {
     return Article(
-      id: url ?? '', // Use empty string if null
+      id: url ?? '', 
       title: title ?? 'No title',
       description: description ?? 'No description',
       content: content ?? 'No content available',

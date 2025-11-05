@@ -12,7 +12,6 @@ class ArticleImage extends StatelessWidget {
     if (article.imageUrl != null) {
       return Image.network(
         article.imageUrl!,
-        // width: 60,
         height: double.infinity,
         fit: BoxFit.fitHeight,
         errorBuilder: (context, error, stackTrace) {

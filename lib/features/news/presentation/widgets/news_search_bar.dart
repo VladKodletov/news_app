@@ -60,7 +60,6 @@ class _NewsSearchBarState extends State<NewsSearchBar> {
                     onChanged: widget.onSearchChanged,
                   ),
                 ),
-                // Clear button (optional)
                 if (_searchController.text.isNotEmpty)
                   IconButton(
                     icon: const Icon(Icons.clear),
@@ -72,9 +71,7 @@ class _NewsSearchBarState extends State<NewsSearchBar> {
               ],
             ),
           ),
-
           const SizedBox(height: 8),
-
           // Category filter
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,

@@ -14,7 +14,6 @@ abstract class NewsRemoteDataSource {
   });
 }
 
-/// Implementation of NewsRemoteDataSource
 class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
   final String apiKey;
   final http.Client client;
@@ -31,7 +30,6 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
     String? query,
   }) async {
     try {
-      // Build query parameters according to NewsAPI documentation
       final params = <String, String>{
         'apiKey': apiKey,
         'country': country ?? 'us',
@@ -39,7 +37,6 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
         if (query != null && query.isNotEmpty) 'q': query,
       };
 
-      // Make actual HTTP request
       final uri = Uri.https(
           AppConstants.newsApiBaseUrl, AppConstants.newsApiPath, params);
       final response = await client.get(uri);
@@ -49,14 +46,12 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
         final jsonResponse = json.decode(response.body);
         final newsResponse = NewsResponseModel.fromJson(jsonResponse);
 
-        // Проверяем и фильтруем статьи
         final validArticles = newsResponse.articles
                 ?.where((article) =>
                     article.title != null && article.title!.isNotEmpty)
                 .toList() ??
             [];
 
-        // Возвращаем response с отфильтрованными статьями
         return NewsResponseModel(
           status: newsResponse.status,
           totalResults: validArticles.length,
@@ -74,14 +69,14 @@ class NewsRemoteDataSourceImpl implements NewsRemoteDataSource {
       } else {
         throw ServerFailure('Failed to load news: ${response.statusCode}');
       }
-    } on http.ClientException catch (e) {
-      throw NetworkFailure('Network error: $e');
-    } on FormatException catch (e) {
-      throw ServerFailure('Invalid response format: $e');
+    } on http.ClientException catch (_) {
+      throw const NetworkFailure(AppConstants.networkErrorMessage);
+    } on FormatException catch (_) {
+      throw const ServerFailure(AppConstants.networkErrorMessage);
     } on ServerFailure {
       rethrow;
     } catch (e) {
-      throw ServerFailure('Unexpected error: $e');
+      throw const ServerFailure(AppConstants.unexpectedErrorMessage);
     }
   }
 }

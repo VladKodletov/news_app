@@ -1,8 +1,5 @@
-// lib/core/pages/main_layout.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:news_app/features/news/presentation/pages/news_list_page.dart';
-import 'package:news_app/features/news/presentation/pages/favorites_page.dart';
 import 'package:news_app/core/widgets/custom_bottom_nav_bar.dart';
 
 class MainLayout extends StatelessWidget {

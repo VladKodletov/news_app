@@ -1,4 +1,3 @@
-// lib/features/news/presentation/bloc/news_detail/news_detail_event.dart
 import 'package:equatable/equatable.dart';
 import 'package:news_app/features/news/domain/entities/article.dart';
 
@@ -20,7 +19,7 @@ class LoadArticleDetail extends NewsDetailEvent {
   List<Object> get props => [article];
 }
 
-/// Event to toggle favorite status - ИЗМЕНЕНО ИМЯ
+/// Event to toggle favorite status 
 class ToggleFavoriteEvent extends NewsDetailEvent {
   const ToggleFavoriteEvent();
 

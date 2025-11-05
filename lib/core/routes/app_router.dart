@@ -11,13 +11,11 @@ class AppRouter {
 
   static final _router = GoRouter(
     routes: [
-      // Главный маршрут с BottomNavigationBar
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return MainLayout(navigationShell: navigationShell);
         },
         branches: [
-          // Ветка новостей
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -25,7 +23,6 @@ class AppRouter {
                 name: 'news',
                 builder: (context, state) => const NewsListPage(),
                 routes: [
-                  // Детальная страница внутри ветки новостей
                   GoRoute(
                     path: 'detail',
                     name: 'news_detail',
@@ -38,7 +35,6 @@ class AppRouter {
               ),
             ],
           ),
-          // Ветка избранного
           StatefulShellBranch(
             routes: [
               GoRoute(
@@ -46,7 +42,6 @@ class AppRouter {
                 name: 'favorites',
                 builder: (context, state) => const FavoritesPage(),
                 routes: [
-                  // Детальная страница внутри ветки избранного
                   GoRoute(
                     path: 'detail',
                     name: 'favorites_detail',

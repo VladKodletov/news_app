@@ -40,11 +40,9 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
     try {
       final currentState = state;
       if (currentState is FavoritesSuccess) {
-        // Find the article to remove
         final articleToRemove = currentState.articles
             .firstWhere((article) => article.id == event.articleId);
         
-        // Optimistically remove from UI
         final updatedArticles = currentState.articles
             .where((article) => article.id != event.articleId)
             .toList();
@@ -55,15 +53,12 @@ class FavoritesBloc extends Bloc<FavoritesEvent, FavoritesState> {
           emit(FavoritesSuccess(updatedArticles));
         }
 
-        // Perform actual removal
         await toggleFavorite(articleToRemove);
       }
     } on NewsFailure catch (e) {
-      // Reload favorites to revert optimistic update
       await _loadFavorites(emit);
       emit(FavoritesError(e.message));
     } catch (e) {
-      // Reload favorites to revert optimistic update
       await _loadFavorites(emit);
       emit(const FavoritesError('An unexpected error occurred'));
     }

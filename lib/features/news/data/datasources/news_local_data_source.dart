@@ -1,4 +1,3 @@
-// lib/features/news/data/datasources/news_local_data_source.dart
 import 'dart:convert';
 import 'package:news_app/core/constants/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -20,7 +19,6 @@ abstract class NewsLocalDataSource {
   Future<bool> isArticleFavorite(String articleId);
 }
 
-/// Implementation using shared_preferences
 class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   static const String _favoritesKey = AppConstants.favoritesKey;
   final SharedPreferences prefs;
@@ -32,7 +30,7 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
     try {
       final jsonString = prefs.getString(_favoritesKey) ?? '[]';
       final List<dynamic> jsonList = json.decode(jsonString);
-      
+
       return jsonList.map<Article>((json) {
         return Article(
           id: json['id'] as String,
@@ -42,7 +40,7 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
           publishedAt: DateTime.parse(json['publishedAt'] as String),
           imageUrl: json['imageUrl'] as String?,
           source: json['source'] as String,
-          isFavorite: true, // All articles from favorites are favorite by definition
+          isFavorite: true,
         );
       }).toList();
     } catch (e) {
@@ -54,7 +52,8 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   Future<void> removeFavoriteArticle(Article article) async {
     try {
       final favorites = await getFavoriteArticles();
-      final updatedFavorites = favorites.where((fav) => fav.id != article.id).toList();
+      final updatedFavorites =
+          favorites.where((fav) => fav.id != article.id).toList();
       await _saveFavorites(updatedFavorites);
     } catch (e) {
       throw CacheFailure('Failed to remove favorite: $e');
@@ -65,12 +64,11 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
   Future<void> saveFavoriteArticle(Article article) async {
     try {
       final favorites = await getFavoriteArticles();
-      
-      // Check if article already exists in favorites
+
       if (favorites.any((fav) => fav.id == article.id)) {
-        return; // Already in favorites, no need to add again
+        return;
       }
-      
+
       final updatedFavorites = [...favorites, article];
       await _saveFavorites(updatedFavorites);
     } catch (e) {
@@ -88,7 +86,6 @@ class NewsLocalDataSourceImpl implements NewsLocalDataSource {
     }
   }
 
-  /// Helper method to save favorites list to shared preferences
   Future<void> _saveFavorites(List<Article> favorites) async {
     try {
       final jsonList = favorites.map((article) {

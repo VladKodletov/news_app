@@ -39,7 +39,7 @@ class NewsApp extends StatelessWidget {
           ),
           inputDecorationTheme: const InputDecorationTheme(
             fillColor: Colors.white,
-             filled: true,
+            filled: true,
           ),
           scaffoldBackgroundColor: Colors.white,
           visualDensity: VisualDensity.adaptivePlatformDensity,

@@ -1,4 +1,4 @@
-// lib/features/news/presentation/widgets/favorites_content.dart
+// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
