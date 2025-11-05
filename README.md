@@ -4,7 +4,8 @@ A modern Flutter news application built with Clean Architecture and BLoC pattern
 
 ## App Demo
 
-<img src="https://github.com/user-attachments/assets/e7d0cbd6-8dd9-429f-9c55-862786a95499" width="auto" height="500" alt="App Demo">
+<img src="https://github.com/user-attachments/assets/6236b157-9d1a-4477-a169-f60dc2a5258e" width="auto" height="450" alt="App Demo">
+
 
 ## 🚀 Features
 
