@@ -2,7 +2,8 @@
 
 A modern Flutter news application built with Clean Architecture and BLoC pattern. The app features real-time news fetching from NewsAPI, favorite articles management, and seamless navigation with beautiful UI components.
 
-![App Demo] <img src="https://github.com/user-attachments/assets/e7d0cbd6-8dd9-429f-9c55-862786a95499" width="auto" height="240" alt="App Demo">
+App Demo 
+<img src="https://github.com/user-attachments/assets/e7d0cbd6-8dd9-429f-9c55-862786a95499" width="auto" height="600" alt="App Demo">
 
 ## 🚀 Features
 
